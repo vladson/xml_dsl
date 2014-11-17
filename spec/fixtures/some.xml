@@ -1,0 +1,41 @@
+<root>
+  <offer>
+    <id>703134</id>
+    <distance>10</distance>
+    <house>38a</house>
+    <rooms>
+      <room>1</room>
+    </rooms>
+    <prices>
+      <price>2200000</price>
+    </prices>
+    <currency>RUR</currency>
+    <floor>7</floor>
+    <nfloor>17</nfloor>
+    <areas>
+      <area type="total">37</area>
+      <area type="live">0</area>
+      <area type="kitchen">10</area>
+    </areas>
+  </offer>
+  <offer>
+    <id>703102</id>
+    <distance>25</distance>
+    <house>7</house>
+    <rooms>
+      <room>1</room>
+    </rooms>
+    <prices>
+      <price>2650000</price>
+    </prices>
+    <currency>RUR</currency>
+    <floor>1</floor>
+    <nfloor>5</nfloor>
+    <areas>
+      <area type="total">30</area>
+      <area type="live">17</area>
+      <area type="kitchen">7</area>
+    </areas>
+    <magick>woodoo</magick>
+  </offer>
+</root>

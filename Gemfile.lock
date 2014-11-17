@@ -3,6 +3,7 @@ PATH
   specs:
     xml_dsl (0.3.0)
       nokogiri (~> 1.6)
+      nokogiri (~> 1.6)
 
 GEM
   remote: https://rubygems.org/
@@ -29,9 +30,9 @@ GEM
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
     method_source (0.8.2)
-    mini_portile (0.6.0)
-    nokogiri (1.6.2.1)
-      mini_portile (= 0.6.0)
+    mini_portile (0.6.1)
+    nokogiri (1.6.4.1)
+      mini_portile (~> 0.6.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -63,7 +64,6 @@ PLATFORMS
 DEPENDENCIES
   guard
   guard-rspec
-  nokogiri (~> 1.6)
   pry
   pry-nav
   pry-remote

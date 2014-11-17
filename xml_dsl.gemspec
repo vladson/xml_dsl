@@ -18,11 +18,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "nokogiri", "~> 1.6"
 
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "guard"
-  s.add_development_dependency "guard-rspec"
-  s.add_development_dependency "pry"
-  s.add_development_dependency "pry-remote"
-  s.add_development_dependency "pry-nav"
+  s.add_development_dependency "rspec", '~> 2.4'
+  s.add_development_dependency "guard", '~> 2.8'
+  s.add_development_dependency "guard-rspec", '~> 4.3'
+  s.add_development_dependency "pry", '~> 0.1'
+  s.add_development_dependency "pry-remote", '~> 0.1'
+  s.add_development_dependency "pry-nav", '~> 0.2'
   s.test_files = Dir["spec/**/*"]
 end

@@ -61,10 +61,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  guard
-  guard-rspec
-  pry
-  pry-nav
-  pry-remote
-  rspec
+  guard (~> 2.8)
+  guard-rspec (~> 4.3)
+  pry (~> 0.1)
+  pry-nav (~> 0.2)
+  pry-remote (~> 0.1)
+  rspec (~> 2.4)
   xml_dsl!

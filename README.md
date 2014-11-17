@@ -11,7 +11,7 @@ Add `xml_dsl` gem to `Gemfile`:
 
 ## Usage
 
-Let's pretend we have a XML output of a following structure
+Let's pretend we have an XML output of a following structure
 ```
     <root>
       <offer>

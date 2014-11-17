@@ -24,7 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency "pry-remote"
   s.add_development_dependency "pry-nav"
-
-  s.add_runtime_dependency "nokogiri", "~> 1.6"
   s.test_files = Dir["spec/**/*"]
 end

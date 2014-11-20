@@ -52,6 +52,10 @@ describe XmlDsl do
           expect { in_definition { error_handle  } }.to change(xml_parser.callbacks[:error_handlers], :length).by(1)
         end
 
+        it 'defining before_parse is put inside before_parsers' do
+          expect { in_definition { before_parse? {} } }.to change(xml_parser.callbacks[:before_parsers], :length).by(1)
+        end
+
         def in_definition(&block)
           xml_parser.instance_eval &block
         end

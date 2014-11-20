@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'support/xml'
 
 describe 'Example Xml Mapper Spec' do
-  context 'normal parser' do
+  context 'basic parser' do
     before(:each) do
       clazz = Class.new
       clazz.class_eval do
@@ -100,6 +100,37 @@ describe 'Example Xml Mapper Spec' do
       expect(@external_obj).to receive(:notify).with(kind_of(Nokogiri::XML::Element)).once
       @parser.iterate
     end
+  end
 
+  context 'Parser with before_parse validation (good)' do
+    before(:each) do
+      clazz = Class.new
+      @external_obj = double
+      clazz.class_eval do
+        attr_accessor :xml, :external
+        def initialize(xml, external)
+          self.xml = xml
+          self.external = external
+        end
+
+        define_xml_parser Hash, :root, :offer do
+
+          before_parse? do |node|
+            !node.search('magick').empty?
+          end
+
+          before_parse? :jim
+          before_parse? [:areas, 'area[type=hobby]']
+
+          field :id, :id, matcher: :to_i
+          field :minutes, :distance, matcher: :to_i
+        end
+      end
+      @parser = clazz.new some_xml, @external_obj
+    end
+
+    it 'returns only one object' do
+      expect(@parser.iterate(acc:[]).length).to eql(1)
+    end
   end
 end

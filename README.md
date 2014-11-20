@@ -70,6 +70,16 @@ Then we can define our mapper as following
         # any length of root path can be provided
         define_xml_parser Hash, :root, :offer do
 
+          # Here is basic validation blocks
+          # They MUST return some bool (if block)
+          before_parse? do |node|
+            !node.search('magick').empty?
+          end
+          
+          # Or just check for must_have key (or path to it)
+          before_parse? :jim
+          before_parse? [:areas, 'area[type=hobby]']
+
           # We can define a block to call every time an XmlDsl::ParseError os raised
           # it is raised if null: true is passed to field declaration, or manually via raise XmlDsl::ParseError
           error_handle do |e, node|
@@ -100,8 +110,26 @@ Then we can define our mapper as following
                 0
             end
           end
+          
+          # If something goes wrong - just raise XmlDsl::ParseError manually
+          field :fuu do |_, node|
+            raise XmlDsl::ParseError, 'FUUU' if node.search(:areas).length > 5
+          end
         end
       end
+```
+
+Then you can use your newly defined parser as you wish:
+```
+    parser = Parser.new(nifty_xml, some_logger_eg)
+    
+    # just iterate with block
+    parser.iterate do |instance|
+        do_stuff_with_newly_mapped_instance_whatever(instance)
+    end
+    
+    # or you can pass some accumulator for your instances to be put into
+    parser.iterate acc: []
 ```
 
 ## Contributing

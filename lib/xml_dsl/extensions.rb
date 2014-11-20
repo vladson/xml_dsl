@@ -23,6 +23,11 @@ module XmlDsl
         raise ArgumentError, "If there is no @xml in parser, pass it to iterate" if xml_obj.nil?
         xml_obj.search(_xml_root_path).each do |node|
           begin
+            valid = _xml_parse_callbacks[:before_parsers].map do |bm|
+              bm.call node, self
+            end.reduce(true, :&)
+            next unless valid
+            # mapping
             instance = _xml_target_class.new
             _xml_parse_callbacks[:readers].each do |bm|
               bm.call instance, node, self

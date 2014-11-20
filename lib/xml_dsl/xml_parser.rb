@@ -28,12 +28,25 @@ module XmlDsl
       @owner.instance_variable_set :@xml_parser, self
     end
 
+    # Field for parse definition
+    # receives args: target, source = nil, getter: :text, matcher: :to_s, null: false
+    # or block with |instance, node|
     def field(*args, &block)
       callbacks[:readers] << XmlDsl::BlockMethod.new(:field, *args, &block)
     end
 
+    # Error handler for automatic or manually raised XmlDsl::ParseError exceptions
+    # receives block with two args error and node, that caused the error to occur
+    # block with |exception, node|
     def error_handle(*args, &block)
       callbacks[:error_handlers] << XmlDsl::BlockMethod.new(:error_handle, *args, &block)
+    end
+
+    # Validation like block
+    # receives key: symbol, string, or array of similar
+    # returns bool if true - normal, false - skip this node
+    def before_parse?(*args, &block)
+      callbacks[:before_parsers] << XmlDsl::BlockMethod.new(:before_parse?, *args, &block)
     end
 
     def setup_parser_instance(instance)

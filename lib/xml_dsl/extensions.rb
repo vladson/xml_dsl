@@ -18,7 +18,7 @@ module XmlDsl
     end
 
     module InstanceMethods
-      def iterate(xml_obj = nil, acc: nil, &block)
+      def iterate(xml_obj = nil, acc: nil, after_method: nil, &block)
         xml_obj ||= xml
         raise ArgumentError, "If there is no @xml in parser, pass it to iterate" if xml_obj.nil?
         xml_obj.search(_xml_root_path).each do |node|
@@ -33,6 +33,9 @@ module XmlDsl
               bm.call instance, node, self
             end
             yield instance if block_given?
+            if after_method && after_method.is_a?(Symbol)
+              instance.send after_method
+            end
             acc << instance if acc
           rescue XmlDsl::ParseError => e
             _xml_parse_callbacks[:error_handlers].each do |bm|

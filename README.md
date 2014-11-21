@@ -66,8 +66,13 @@ Then we can define our mapper as following
           self.external = external
         end
 
+        #
         # Here we definig parser, which will put attributes to Hash, and look for <offer> nodes inside <root>
-        # any length of root path can be provided
+        # any length of root path can be provided, also attributes full path is also a choise
+        # define_xml_parser arbitrary_class, :root, "offer[type=uniq]"
+        # You can pass as first argument not only Hash, but any Ruby class capable to set attributes defined in fields
+        # define_xml_parser OpenStruct
+        # define_xml_parser NiftyActiveRecordModel
         define_xml_parser Hash, :root, :offer do
 
           # Here is basic validation blocks
@@ -130,6 +135,9 @@ Then you can use your newly defined parser as you wish:
     
     # or you can pass some accumulator for your instances to be put into
     parser.iterate acc: []
+    
+    # or event call a method on instances without getting them actually
+    parser.iterate after_method: :save
 ```
 
 ## Contributing

@@ -18,7 +18,7 @@
       <area type="kitchen">10</area>
     </areas>
   </offer>
-  <offer>
+  <offer type="uniq">
     <id>703102</id>
     <distance>25</distance>
     <house>7</house>

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xml_dsl (0.3.2)
+    xml_dsl (0.5.1)
       nokogiri (~> 1.6)
 
 GEM

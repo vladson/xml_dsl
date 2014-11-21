@@ -58,7 +58,9 @@ module XmlDsl
     end
 
     def root_path
-      @root_path.join('/').prepend('//')
+      rp = @root_path.join('/')
+      rp.prepend('//') if @root_path.map {|part| part.is_a? Symbol}.reduce(true, :&)
+      rp
     end
   end
 end

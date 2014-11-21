@@ -133,4 +133,57 @@ describe 'Example Xml Mapper Spec' do
       expect(@parser.iterate(acc:[]).length).to eql(1)
     end
   end
+
+  context 'Output parser and arbitrary class' do
+    before(:each) do
+      arbitrary_class = Class.new
+      arbitrary_class.class_eval do
+        attr_accessor :id, :minutes, :magick
+
+        def very_important_method
+          puts self.id
+        end
+      end
+      clazz = Class.new
+      @external_obj = double
+      clazz.class_eval do
+        attr_accessor :xml, :external
+        def initialize(xml, external)
+          self.xml = xml
+          self.external = external
+        end
+
+        define_xml_parser arbitrary_class, :root, "offer[type=uniq]" do
+          field :id, :id, matcher: :to_i
+          field :minutes, :distance, matcher: :to_i
+        end
+      end
+      @parser = clazz.new some_xml, @external_obj
+    end
+
+    it 'calls on iterate' do
+      d = double
+      expect(d).to receive(:fire).once
+      @parser.iterate do |i|
+        d.fire i
+      end
+    end
+
+    it 'appends instances to a list provided' do
+      list = []
+      @parser.iterate acc: list
+      expect(list.length).to eql(1)
+    end
+
+    it 'instances are having attributes set' do
+      list = []
+      @parser.iterate acc: list
+      expect(list.last.id).to eql(703102)
+    end
+
+    it 'calls after_method if provided' do
+      expect_any_instance_of(@parser.instance_variable_get(:@_xml_target_class)).to receive(:very_important_method).at_least(:once)
+      @parser.iterate after_method: :very_important_method
+    end
+  end
 end

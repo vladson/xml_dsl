@@ -7,6 +7,7 @@ module XmlDsl
       @block = block if block_given?
     end
 
+    # order of params to be called can differ, so naming is ambiguous
     def call(a, b = nil, c = nil)
       if block
         self.send method, *[a, b, c].compact + args, &block
@@ -17,11 +18,12 @@ module XmlDsl
 
     def field(instance, node, parser, target, source = nil, getter: :text, matcher: :to_s, null: false, &block)
       raise ArgumentError, 'Wrong target' unless target.is_a? Symbol
+      wrapped_instance = XmlDsl::InstanceWrapper.new instance
       if block_given?
-        instance[target] = parser.instance_exec instance, node, &block
+        wrapped_instance.set target, parser.instance_exec(instance, node, &block)
       else
         raise ArgumentError, 'No source specified' if source.nil?
-        instance[target] = node.search(convert_source(source)).send(getter).send(matcher)
+        wrapped_instance.set target,  node.search(convert_source(source)).send(getter).send(matcher)
       end
       if null
         raise XmlDsl::ParseError, "#{target} is empty. Node: #{node}" if instance[target].nil? || instance[target] == ""
@@ -50,6 +52,22 @@ module XmlDsl
           source.join('/')
         else
           source.to_s
+      end
+    end
+
+  end
+  class InstanceWrapper
+    attr_accessor :instance
+
+    def initialize(instance)
+      self.instance = instance
+    end
+
+    def set(key, value)
+      if instance.is_a? Hash
+        instance[key] = value
+      else
+        instance.send "#{key}=", value
       end
     end
   end

@@ -1,5 +1,7 @@
 # Xml Dsl
 
+[![Code Climate](https://codeclimate.com/github/vladson/xml_dsl/badges/gpa.svg)](https://codeclimate.com/github/vladson/xml_dsl)
+
 Xml Dsl adds DSL for defining easy parsers (or mappers) for XML via nokogiri XML objects.
 
 ## Install
